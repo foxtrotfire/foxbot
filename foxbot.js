@@ -6,8 +6,11 @@
 ////////////////////////////////////////////////////////////////
 //	foxbot.js :: A robot that automates certain functions for
 //		plug.dj
-//	Version 101.12.15.2.2
+//	Version 101.12.24.2.1
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me, Linear Logic
+////////////////////////////////////////////////////////////////
+//	Changelog v. 101.12.24.2.1
+//	-Changed welcome message to something more festive
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.15.2.2
 //	-Changed announcer and banned messages to retry
@@ -75,7 +78,7 @@ var o_settings = {
 	announcer: true,
 	maxSongLength: 8, // in mins.
     	rules: 'Play EDM only, no Trap. 8 min max. Please show love and respect to everyone.',
-    	welcome: 'Thank you for plugging in!',
+    	welcome: 'The staff wishes you Happy Holidays!',
 	strictMode: false,
 	i_timerID: null,
 	f_autoSkip: f_long
@@ -83,7 +86,7 @@ var o_settings = {
 var a_jokes = [];
 var o_tmp = {};
 var b_hasModRights = false;
-var cur_Vers="101.12.15.2.2";
+var cur_Vers="101.12.24.2.1";
 
 var o_chatcmds = {
         /*
