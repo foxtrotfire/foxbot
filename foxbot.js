@@ -90,7 +90,7 @@ var o_settings = {
 var a_jokes = [];
 var o_tmp = {};
 var b_hasModRights = false;
-var cur_Vers="101.12.24.2.1";
+var cur_Vers="102.1.2.2.1";
 
 var o_chatcmds = {
         /*
