@@ -9,6 +9,10 @@
 //	Version 101.12.24.2.1
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me, Linear Logic
 ////////////////////////////////////////////////////////////////
+//	Changelog v. 102.1.2.2.1
+//	-Changed welcome message back to normal
+//	-Edited autoskip so it announces it will skip multiple times
+////////////////////////////////////////////////////////////////
 //	Changelog v. 101.12.24.2.1
 //	-Changed welcome message to something more festive
 ////////////////////////////////////////////////////////////////
@@ -1144,6 +1148,9 @@ function f_djAdvance(obj){
 			var o_djs = API.getDJs();
 			o_tmp.username = o_djs[0].username;
 			API.sendChat('@'+o_tmp.username+' [WARNING] Sorry, your song is over the allowed time limit and will be automagically skipped after '+o_settings.maxSongLength+' minutes.');
+			window.setTimeout(function(){API.sendChat('/me This song will be skipped when it has played for '+o_settings.maxSongLength+' minutes!');},(o_settings.maxSongLength)*60*1000*0.25);
+			window.setTimeout(function(){API.sendChat('/me This song will be skipped when it has played for '+o_settings.maxSongLength+' minutes!');},(o_settings.maxSongLength)*60*1000*0.50);
+			window.setTimeout(function(){API.sendChat('/me This song will be skipped when it has played for '+o_settings.maxSongLength+' minutes!');},(o_settings.maxSongLength)*60*1000*0.75);
 			o_settings.i_timerID = window.setTimeout(o_settings.f_autoSkip, (o_settings.maxSongLength)*60*1000);
 		}
 	}
