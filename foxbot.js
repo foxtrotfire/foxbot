@@ -78,7 +78,7 @@ var o_settings = {
 	announcer: true,
 	maxSongLength: 8, // in mins.
     	rules: 'Play EDM only, no Trap. 8 min max. Please show love and respect to everyone.',
-    	welcome: 'The staff wishes you Happy Holidays!',
+    	welcome: 'Thank you for plugging in!',
 	strictMode: false,
 	i_timerID: null,
 	f_autoSkip: f_long
