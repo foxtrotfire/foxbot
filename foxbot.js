@@ -81,7 +81,7 @@ var o_settings = {
 	profanityfilter: true,
 	announcer: true,
 	maxSongLength: 8, // in mins.
-    	rules: 'Play EDM only, no Trap. 8 min max. Please show love and respect to everyone.',
+    	rules: 'Play any type of EDM. 5-8 min max. Please show love and respect. NO foul language!!!',
     	welcome: 'Thank you for plugging in!',
 	strictMode: false,
 	i_timerID: null,
