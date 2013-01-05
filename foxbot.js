@@ -1,75 +1,17 @@
 ////////////////////////////////////////////////////////////////
-//	ATTENTION ALL DEVS. PLEASE READ THE BELOW MESSAGE. THANKS!
-//[http://www.mixolydianmuse.com/plug.dj/add-ons/foxbot/message]
-////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////
 //	foxbot.js :: A robot that automates certain functions for
 //		plug.dj
 //	Version 101.12.24.2.1
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me, Linear Logic
 ////////////////////////////////////////////////////////////////
+//	Changelog v. 102.1.4.2.2
+//	-Changed autoskip announce so it resets if the song is manually skipped
+////////////////////////////////////////////////////////////////
 //	Changelog v. 102.1.2.2.1
 //	-Changed welcome message back to normal
 //	-Edited autoskip so it announces it will skip multiple times
 ////////////////////////////////////////////////////////////////
-//	Changelog v. 101.12.24.2.1
-//	-Changed welcome message to something more festive
-////////////////////////////////////////////////////////////////
-//	Changelog v. 101.12.15.2.2
-//	-Changed announcer and banned messages to retry
-//	-Edited join announcements a bit
-//	-Added PF (profanityfilter) to test command
-//	-Added Ace1994 custom drink
-//	-Changed profanity filter to user only
-////////////////////////////////////////////////////////////////
-//	Changelog v. 101.12.13.5.1
-//	-Changed profanity command handling
-////////////////////////////////////////////////////////////////
-//	Changelog v. 101.12.13.2.1
-//	-Added Announcer
-//	-Added twitter
-////////////////////////////////////////////////////////////////
-//	Changelog v. 101.12.12.2.1
-//	-Added Powdered Toast Man's custom drink
-//	-Added variable welcome message
-////////////////////////////////////////////////////////////////
-//	Changelog v. 101.12.10.2.1
-//	-Added 2 jokes
-//	-Added super's and Kendall's custom drink
-//	-Edited Init Message
-//	-Added profanityfilter (default off, use /set profanityfilter;true to turn on)
-//	-Edited facebook message
-//	-Added banned list
-////////////////////////////////////////////////////////////////
-//	Changelog v. 101.12.10.4.1
-//	-Fixed setting time limit from chat (101.12.6.4.1)
-//	-Added a spam filter that -doesn't work- actually works
-//	 (101.12.6.4.1)
-//		-They fixed part of the API!!!!!
-//	-Added a few more easter eggs
-//	-Welcome AND part messages now exist
-//		-Part only exists for staff (including featured DJ)
-//	-Added a current version global variable (type str)
-//		-PLEASE update when you change code. Effects /about
-//	-Edited formatting on announces and part messages
-//	-Fixed two skipping errors
-//		- parseInt("09") becomes 0. So 09 minutes becomes 0.
-//			-Removed parseInt entirely, and just did "09"*60.
-//			-Same thing with seconds. seconds*1
-//		-Skips if longer than an hour
-//	-Added a /fb that sends a link to our FB
 
-//	-Changelogs now archived at
-//[http:/www.mixolydianmuse.com/plug.dj/add-ons/foxbot/changelog]
-//		-Sorry for breaking formatting (only for the links)
-//		-Only include changelog for MOST RECENT VERSION
-//	-Edited my message and put here
-//[http://www.mixolydianmuse.com/plug.dj/add-ons/foxbot/message]
-////////////////////////////////////////////////////////////////
-// Old changelogs
-//[http:/www.mixolydianmuse.com/plug.dj/add-ons/foxbot/changelog]
-////////////////////////////////////////////////////////////////
 
 //Begin Variable Declarations
 var o_settings = {
@@ -85,12 +27,15 @@ var o_settings = {
     	welcome: 'Thank you for plugging in!',
 	strictMode: false,
 	i_timerID: null,
+	i_timerannounce1: null,
+	i_timerannounce2: null,
+	i_timerannounce3: null,	
 	f_autoSkip: f_long
 };
 var a_jokes = [];
 var o_tmp = {};
 var b_hasModRights = false;
-var cur_Vers="102.1.2.2.1";
+var cur_Vers="102.1.4.2.2";
 
 var o_chatcmds = {
         /*
@@ -948,11 +893,11 @@ function f_drink(data) {
 			break;
 		case "50aeb07a877b9217e2fbffb2":
 			//Guess who? It's already in there
-			API.sendChat("The master has spoken! One Absolut Vodka for @"+data.from+" !");
+			API.sendChat("The master has spoken! One Redbull Vodka for @"+data.from+" !");
 			break;
 		case "50aeb020d6e4a94f774740a9":
 			//foxtrot
-			API.sendChat("Sorry, we're all out of alcohol. Here's your apple juice, @"+data.from+" .");
+			API.sendChat("Sorry, we're all out of alcohol. Here's your complementary blunt @"+data.from+" , Enjoy");
 			break;
 		case "50aeb3fa3e083e18fa2ddbed":
 			//FramedTKE
@@ -1135,6 +1080,9 @@ function f_djAdvance(obj){
 	// auto-skip code:
 	// clear previous timeout
 	window.clearTimeout(o_settings.i_timerID);
+	window.clearTimeout(o_settings.i_timerannounce1);
+	window.clearTimeout(o_settings.i_timerannounce2);
+	window.clearTimeout(o_settings.i_timerannounce3);
 	// if autoskip enabled & song over time limit
 	if(o_settings.autoSkip && ((i_timeRem > (o_settings.maxSongLength)*60)|| (a_timeRem.length>2))){
 		//strict mode, skip immediately
@@ -1148,10 +1096,10 @@ function f_djAdvance(obj){
 			var o_djs = API.getDJs();
 			o_tmp.username = o_djs[0].username;
 			API.sendChat('@'+o_tmp.username+' [WARNING] Sorry, your song is over the allowed time limit and will be automagically skipped after '+o_settings.maxSongLength+' minutes.');
-			window.setTimeout(function(){API.sendChat('/me This song will be skipped after '+o_settings.maxSongLength*0.75+' minutes!');},(o_settings.maxSongLength)*60*1000*0.25);
-			window.setTimeout(function(){API.sendChat('/me This song will be skipped after '+o_settings.maxSongLength*0.5+' minutes!');},(o_settings.maxSongLength)*60*1000*0.5);
-			window.setTimeout(function(){API.sendChat('/me This song will be skipped after '+o_settings.maxSongLength*0.25+' minutes!');},(o_settings.maxSongLength)*60*1000*0.75);
 			o_settings.i_timerID = window.setTimeout(o_settings.f_autoSkip, (o_settings.maxSongLength)*60*1000);
+			o_settings.i_timerannounce1 = window.setTimeout(function(){API.sendChat('/me This song will be skipped after '+o_settings.maxSongLength*0.75+' minutes!');},(o_settings.maxSongLength)*60*1000*0.25);
+			o_settings.i_timerannounce2 = window.setTimeout(function(){API.sendChat('/me This song will be skipped after '+o_settings.maxSongLength*0.5+' minutes!');},(o_settings.maxSongLength)*60*1000*0.5);
+			o_settings.i_timerannounce3 = window.setTimeout(function(){API.sendChat('/me This song will be skipped after '+o_settings.maxSongLength*0.25+' minutes!');},(o_settings.maxSongLength)*60*1000*0.75);
 		}
 	}
 
