@@ -1,8 +1,11 @@
 ////////////////////////////////////////////////////////////////
 //	foxbot.js :: A robot that automates certain functions for
 //		plug.dj
-//	Version 101.12.24.2.1
+//	Version 102.1.14.2.1
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me, Linear Logic
+////////////////////////////////////////////////////////////////
+//	Changelog v. 102.1.14.2.1
+//	- Added moar drinks
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 102.1.4.2.2
 //	-Changed autoskip announce so it resets if the song is manually skipped
@@ -35,7 +38,7 @@ var o_settings = {
 var a_jokes = [];
 var o_tmp = {};
 var b_hasModRights = false;
-var cur_Vers="102.1.4.2.2";
+var cur_Vers="102.1.14.2.1";
 
 var o_chatcmds = {
         /*
@@ -909,7 +912,7 @@ function f_drink(data) {
 			break;
 		case "50aeb3fd96fba52c3ca0d0a6":
 			//krstenalex
-			API.sendChat("Rum delivered by Ms. Jolie? Hm. I can do the rum but I don't know about Ms. Jolie. Ah, speak of the devil, she just walked through the door. Here is rum your with a side of Angelina Jolie, @"+data.from+" !");
+			API.sendChat("Here's your Baileys with a hint of Coffee @"+data.from+" , Enjoy!");
 			break;
 		case "50aeb3fd96fba52c3ca0d0c2":
 			//micro
@@ -979,6 +982,14 @@ function f_drink(data) {
 		case "50aeb04a3e083e18fa2d48f0":
 			//Ace1994
 			API.sendChat("Here's your Mystery Drink @"+data.from+", nobody knows what is in it, so Enjoy!");
+			break;
+		case "50c3cbdc3e083e5830b776b7":
+			//DJ Dajova
+			API.sendChat("Here's your black coffee with a hint of sugar @"+data.from+", Enjoy!");
+			break;
+		case "50aeb55c3e083e18fa2e0bee":
+			//Sleepy System Sound
+			API.sendChat("Here's your plain ol' Vodka @"+data.from+" , Enjoy!");
 			break;
 		default:
 			API.sendChat('Here is your generic strong alcoholic beverage @'+data.from+' , enjoy!');
