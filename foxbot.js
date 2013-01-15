@@ -991,7 +991,7 @@ function f_drink(data) {
 			//Sleepy System Sound
 			API.sendChat("Here's your plain ol' Vodka @"+data.from+" , Enjoy!");
 			break;
-		case "50aeb030d6e4a94f7747436c"
+		case "50aeb030d6e4a94f7747436c":
 			//Shadow Horizon
 			API.sendChat("Here's your Blackthorn cider @"+data.from+" , Enjoy!");
 			break;
