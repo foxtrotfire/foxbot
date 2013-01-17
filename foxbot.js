@@ -4,6 +4,10 @@
 //	Version 102.1.14.2.1
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me, Linear Logic
 ////////////////////////////////////////////////////////////////
+//	Changelog v. 102.1.17.2.1
+//	-Changed message parsing so the controller of the bot can also use commands (only commands with a /)
+//	-Changed user join and leave messages to adress all permission levels seperately
+////////////////////////////////////////////////////////////////
 //	Changelog v. 102.1.14.2.1
 //	- Added moar drinks
 ////////////////////////////////////////////////////////////////
@@ -38,7 +42,7 @@ var o_settings = {
 var a_jokes = [];
 var o_tmp = {};
 var b_hasModRights = false;
-var cur_Vers="102.1.14.2.1";
+var cur_Vers="102.1.17.2.1";
 
 var o_chatcmds = {
         /*
@@ -754,28 +758,42 @@ function f_foxbotInit() {
 	Playback.setVolume(0);
 }
 function join(user){
-	if(user.id=="50aeb20fc3b97a2cb4c2d804"){
-		API.sendChat("/me :: All hail our Supreme Overlord, @"+user.username+" ! Welcome back master!");
+	if(user.permission.toString()==5){
+		API.sendChat("/me :: [Host] @"+user.username+" has joined the room");
 	}
-	else if(user.permission.toString()>1){
-		API.sendChat("/me :: A wild moderator appears! Wait, no. We know this one. The moderator's name is @"+user.username+" .");
+	else if(user.permission.toString()==4){
+		API.sendChat("/me :: [Co-Host] @"+user.username+" has joined the room");
+	}
+	else if(user.permission.toString()==3){
+		API.sendChat("/me :: [Manager] @"+user.username+" has joined the room");
+	}
+	else if(user.permission.toString()==2){
+		API.sendChat("/me :: [Bouncer] @"+user.username+" has joined the room");
+	}
+	else if(user.permission.toString()==1){
+		API.sendChat("/me :: [Featured DJ] @"+user.username+" has joined the room");
 	}
 	else{
 		API.sendChat("/me :: Welcome @" + user.username + " to " + Models.room.data.name + ". "+o_settings.welcome);
-		//window.setTimeout(function(){f_rule({from: user.username});}, 1000); //Uncomment to send rules
 	}
 }
 
 
 function leave(user){
-	if(user.id=="50aeb20fc3b97a2cb4c2d804"){
-		API.sendChat("/me :: All hail our Supreme Overlord, @"+user.username+" ! Thank you for gracing us with your presence!");
+	if(user.permission.toString()==5){
+		API.sendChat("/me :: [Host] "+user.username+" has left the room");
 	}
-	else if(user.permission.toString()>1){
-		API.sendChat("/me :: Bye bye, Mr. Moderator, sir! Bye @"+user.username+" !");
+	else if(user.permission.toString()==4){
+		API.sendChat("/me :: [Co-Host] "+user.username+" has left the room");
+	}
+	else if(user.permission.toString()==3){
+		API.sendChat("/me :: [Manager] "+user.username+" has left the room");
+	}
+	else if(user.permission.toString()==2){
+		API.sendChat("/me :: [Bouncer] "+user.username+" has left the room");
 	}
 	else if(user.permission.toString()==1){
-		API.sendChat("/me :: [Featured DJ]"+user.username+" has left the room");
+		API.sendChat("/me :: [Featured DJ] "+user.username+" has left the room");
 	}
 }
 
@@ -803,7 +821,6 @@ function f_commands(data){
 function f_skip(data) {
     API.sendChat('/me Current DJ has been skipped by operator!');
     window.setTimeout(function(){new ModerationForceSkipService(Models.room.data.historyID);}, 1000);
-	window.setTimeout(function(){API.sendChat("/me Your song got skipped because it was either not on genre, overplayed or (the outro) was too long.");}, 2000);
 }
 function f_long() {
 	API.sendChat('@'+o_tmp.username+' Your song has played for '+o_settings.maxSongLength+' minutes and will now be skipped!');
@@ -1046,26 +1063,37 @@ function f_set(data) {
 
 function f_checkChat(data) {
 //Will work on this. It's kind of annoying as it stands and doesn't allow for cool stuff
-	if((data.type == "message") && (data.fromID != API.getSelf().id) ) {
-		for(var s in o_chatcmds) {
-			if(data.message.toString().toLowerCase().indexOf(s) != -1) { // The only requesite of this more efficient chat parsing system is that all chat vars are lowercase
-				if(o_chatcmds[s].needsPerm){
-					if(API.getUser(data.fromID).permission.toString()>1){
-						o_chatcmds[s].f(data);
+	if(data.type == "message") {
+		if(data.fromID != API.getSelf().id){
+			for(var s in o_chatcmds) {
+				if(data.message.toString().toLowerCase().indexOf(s) != -1) { // The only requesite of this more efficient chat parsing system is that all chat vars are lowercase
+					if(o_chatcmds[s].needsPerm){
+						if(API.getUser(data.fromID).permission.toString()>1){
+							o_chatcmds[s].f(data);
+						}
+						else{
+							API.sendChat('I\'m sorry, @' + data.from + ', but I\'m afraid I can\'t let you do that.');
+						}
 					}
 					else{
-						API.sendChat('I\'m sorry, @' + data.from + ', but I\'m afraid I can\'t let you do that.');
+						o_chatcmds[s].f(data);
 					}
 				}
-				else{
-					o_chatcmds[s].f(data);
-				}
-						   
+			}
+		}
+		else{
+			for(var s in o_chatcmds) {
+				if(s[0] == '/') {
+					if(data.message.toString().toLowerCase().indexOf(s) != -1) { // The only requesite of this more efficient chat parsing system is that all chat vars are lowercase
+						o_chatcmds[s].f(data);
+					}
+				}	
 			}
 		}
 	}
-	
 }
+
+
     
 function f_getArgs(s) {
     var a_s = s.split(' '); // [0] = <command>; [1-n] args
