@@ -7,7 +7,7 @@
 //	Changelog v. 102.1.17.2.1
 //	-Changed message parsing so the controller of the bot can also use commands (only commands with a /)
 //	-Changed user join and leave messages to adress all permission levels seperately
-//	-Removed /me form announce and perm. 0  welcome
+//	-Removed /me from announce and perm. 0  welcome
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 102.1.14.2.1
 //	- Added moar drinks
