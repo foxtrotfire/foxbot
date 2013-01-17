@@ -7,6 +7,7 @@
 //	Changelog v. 102.1.17.2.1
 //	-Changed message parsing so the controller of the bot can also use commands (only commands with a /)
 //	-Changed user join and leave messages to adress all permission levels seperately
+//	-Removed /me form announce and perm. 0  welcome
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 102.1.14.2.1
 //	- Added moar drinks
@@ -774,7 +775,7 @@ function join(user){
 		API.sendChat("/me :: [Featured DJ] @"+user.username+" has joined the room");
 	}
 	else{
-		API.sendChat("/me :: Welcome @" + user.username + " to " + Models.room.data.name + ". "+o_settings.welcome);
+		API.sendChat(" :: Welcome @" + user.username + " to " + Models.room.data.name + ". "+o_settings.welcome);
 	}
 }
 
@@ -1175,15 +1176,15 @@ function f_profanity(data){
 	} 
 }
 function f_fb(data){
-	API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook page at http://goo.gl/vpHWz and Follow us on twitter @ElectronicELE !");
+	API.sendChat(" Enjoying the music and awesome people in this room? Consider joining our facebook page at http://goo.gl/vpHWz and Follow us on twitter @ElectronicELE !");
 }
 function f_retrylist(data){
-	API.sendChat("/me  Check out the list of songs we would rather you NOT play at http://goo.gl/9tLE7 !")
+	API.sendChat("  Check out the list of songs we would rather you NOT play at http://goo.gl/9tLE7 !")
 }
 function f_announcer(){
 	if(o_settings.announcer){
-		API.sendChat("/me Enjoying the music and awesome people in this room? Consider joining our facebook group at http://goo.gl/vpHWz and Follow us on twitter @ElectronicELE !");
-		window.setTimeout(function(){API.sendChat("/me Also check out the list of songs we would rather you NOT play at http://goo.gl/9tLE7 !");},1000);
+		API.sendChat(" Enjoying the music and awesome people in this room? Consider joining our facebook group at http://goo.gl/vpHWz and Follow us on twitter @ElectronicELE !");
+		window.setTimeout(function(){API.sendChat(" Also check out the list of songs we would rather you NOT play at http://goo.gl/9tLE7 !");},1000);
 	}
 }
 window.setTimeout(function(){f_foxbotInit();},5000);
