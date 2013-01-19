@@ -774,7 +774,7 @@ function join(user){
 	else if(user.permission.toString()==2){
 		API.sendChat("/me :: [Bouncer] @"+user.username+" has joined the room");
 	}
-	else(user.permission.toString()==1){
+	else if(user.permission.toString()==1){
 		API.sendChat("/me :: [Featured DJ] @"+user.username+" has joined the room");
 	}
 	/*else{
