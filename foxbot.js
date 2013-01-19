@@ -4,6 +4,9 @@
 //	Version 102.1.14.2.1
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me, Linear Logic
 ////////////////////////////////////////////////////////////////
+//	Changelog v. 102.1.19.2.1
+//	-Disabled welcome message for users with permission <1
+////////////////////////////////////////////////////////////////
 //	Changelog v. 102.1.17.2.1
 //	-Changed message parsing so the controller of the bot can also use commands (only commands with a /)
 //	-Changed user join and leave messages to adress all permission levels seperately
@@ -771,12 +774,12 @@ function join(user){
 	else if(user.permission.toString()==2){
 		API.sendChat("/me :: [Bouncer] @"+user.username+" has joined the room");
 	}
-	else if(user.permission.toString()==1){
+	else(user.permission.toString()==1){
 		API.sendChat("/me :: [Featured DJ] @"+user.username+" has joined the room");
 	}
-	else{
+	/*else{
 		API.sendChat(" :: Welcome @" + user.username + " to " + Models.room.data.name + ". "+o_settings.welcome);
-	}
+	}*/
 }
 
 
