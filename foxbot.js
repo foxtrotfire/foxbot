@@ -4,6 +4,12 @@
 //	Version 102.1.14.2.1
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me, Linear Logic
 ////////////////////////////////////////////////////////////////
+//	Changelog v. 102.1.21.2.1
+//	-Added antispam system
+//	-Added a user command toggle (bot will ignore users)
+//	-Added a cooldown to user commands to prevent botspam
+//	-Updated /test 
+////////////////////////////////////////////////////////////////
 //	Changelog v. 102.1.19.2.1
 //	-Disabled welcome message for users with permission <1
 ////////////////////////////////////////////////////////////////
@@ -34,6 +40,7 @@ var o_settings = {
 	profanityfilter: true,
 	announcer: true,
 	usercmd: false,
+	antiSpam: true,
 	maxSongLength: 8, // in mins.
     	rules: 'Play any type of EDM. 5-8 min max. Please show love and respect. NO foul language!!!',
     	welcome: 'Thank you for plugging in!',
@@ -45,7 +52,9 @@ var o_settings = {
 	f_autoSkip: f_long
 };
 var a_jokes = [];
-var o_tmp = {};
+var o_tmp = {
+		cooldown: 0
+};
 var b_hasModRights = false;
 var cur_Vers="102.1.17.2.1";
 
@@ -161,6 +170,12 @@ var o_chatcmds = {
 	},
 	'/usercmd': {
 		f: f_toggleUserCmd,
+		needsPerm: true,
+		needsLocalPerm: true,
+		visible: true
+	},
+	'/antispam': {
+		f: f_toggleAntiSpam,
 		needsPerm: true,
 		needsLocalPerm: true,
 		visible: true
@@ -764,6 +779,7 @@ function f_foxbotInit() {
 	API.addEventListener(API.USER_LEAVE, leave);
 	API.addEventListener("curateUpdate", f_curate);
 	API.addEventListener(API.CHAT, f_checkChat);
+	API.addEventListener(API.CHAT, f_antiSpam);
 	API.addEventListener(API.DJ_ADVANCE, f_djAdvance);
 	// mute the player
 	Playback.setVolume(0);
@@ -1036,7 +1052,7 @@ function f_joke(data) {
     API.sendChat('/me Joke #'+n+': '+a_jokes[n]);
 }
 function f_test(data) {
-	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+', MSL: '+o_settings.maxSongLength+', AW: '+o_settings.autoWoot+', AQ: N/A, AN: '+o_settings.announcer+', PF: '+o_settings.profanityfilter+', M: '+b_hasModRights+']';
+	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+'('+o_settings.maxSongLength+'m), AW: '+o_settings.autoWoot+', AN: '+o_settings.announcer+', PF: '+o_settings.profanityfilter+', SF: '+o_settings.antiSpam+', UC: '+o_settings.usercmd+', Mod: '+b_hasModRights+']';
 	API.sendChat('/me Systems are online and functional! '+s);
 }
 function f_reload(data) {
@@ -1066,6 +1082,16 @@ function f_toggleUserCmd(data) {
 		o_settings.usercmd = false;
 	}
 }
+function f_toggleAntiSpam(data) {
+	if(o_settings.antiSpam == false) {
+		API.sendChat('/me Spam Countermeasures now enabled');
+		o_settings.antiSpam = true;
+	}
+	else {
+		API.sendChat('/me Spam Countermeasures now disabled');
+		o_settings.antiSpam = false;
+	}
+}
 function f_set(data) {
     var args = f_getArgs(data.message);
     var setValue = args[1];
@@ -1092,12 +1118,16 @@ function f_checkChat(data) {
 						if(API.getUser(data.fromID).permission.toString()>1){
 							o_chatcmds[s].f(data);
 						}
-						/*else{
+						else if(o_settings.usercmd){
 							API.sendChat('I\'m sorry, @' + data.from + ', but I\'m afraid I can\'t let you do that.');
-						}*/
+						}
 					}
 					else if(o_settings.usercmd){
+						if(o_tmp.cooldown == 0){
+						o_tmp.cooldown = 1;
 						o_chatcmds[s].f(data);
+						window.setTimeout(function(){o_tmp.cooldown = 0;},3000);
+						}
 					}
 				}
 			}
@@ -1207,6 +1237,32 @@ function f_announcer(){
 		window.setTimeout(function(){API.sendChat(" Also check out the list of songs we would rather you NOT play at http://goo.gl/9tLE7 and get our custom background at http://bit.ly/10s3M8h !");},1000);
 	}
 }
+function f_antiSpam(data){
+	if(o_settings.antiSpam){
+		if(API.getUser(data.fromID).permission.toString() < 2){
+			if(data.fromID != API.getSelf().id){
+				if (data.fromID == o_tmp.target){
+					o_tmp.counter = o_tmp.counter + 1;
+					if (o_tmp.counter == 5){
+						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
+						window.setTimeout(function(){o_tmp.counter = 1;},20000);
+					}
+					else if(o_tmp.counter == 9) {
+						API.sendChat("@"+data.from+" WARNING, this is your final warning, stop spamming or you will be kicked!");
+					}	
+					else if(o_tmp.counter == 10){
+						API.moderateKickUser(o_tmp.target, 'spamming');
+					}
+				}
+				else {
+					o_tmp.target = data.fromID;
+					o_tmp.counter = 1;
+				}
+			}
+		}	
+	}
+}	
+
 
 window.setTimeout(function(){f_foxbotInit();},5000);
 window.setInterval(function(){f_announcer();},(1000 * 30 * 60));
