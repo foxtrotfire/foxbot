@@ -1243,6 +1243,7 @@ function f_antiSpam(data){
 			if(data.fromID != API.getSelf().id){
 				if (data.fromID == o_tmp.target){
 					o_tmp.counter = o_tmp.counter + 1;
+					window.setTimeout(function(){o_tmp.counter = 1;},10000);
 					if (o_tmp.counter == 5){
 						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
 					}
@@ -1256,7 +1257,7 @@ function f_antiSpam(data){
 				else {
 					o_tmp.target = data.fromID;
 					o_tmp.counter = 1;
-					window.setTimeout(function(){o_tmp.counter = 1;},20000);
+					
 				}
 			}
 		}	
