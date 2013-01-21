@@ -1039,6 +1039,10 @@ function f_drink(data) {
 			//Shadow Horizon
 			API.sendChat("Here's your Blackthorn cider @"+data.from+" , Enjoy!");
 			break;
+		case "50aeb138d6e4a94f77476e33":
+			//FunkyPanda.htm
+			API.sendChat("Here's your coffee with milk and a hint of sugar @"+data.from+" , Enjoy!");
+			break;
 		default:
 			API.sendChat('Here is your generic strong alcoholic beverage @'+data.from+' , enjoy!');
 	}
