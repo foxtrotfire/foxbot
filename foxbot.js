@@ -1245,7 +1245,6 @@ function f_antiSpam(data){
 					o_tmp.counter = o_tmp.counter + 1;
 					if (o_tmp.counter == 5){
 						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
-						window.setTimeout(function(){o_tmp.counter = 1;},20000);
 					}
 					else if(o_tmp.counter == 9) {
 						API.sendChat("@"+data.from+" WARNING, this is your final warning, stop spamming or you will be kicked!");
@@ -1257,6 +1256,7 @@ function f_antiSpam(data){
 				else {
 					o_tmp.target = data.fromID;
 					o_tmp.counter = 1;
+					window.setTimeout(function(){o_tmp.counter = 1;},20000);
 				}
 			}
 		}	
