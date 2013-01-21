@@ -56,7 +56,7 @@ var o_tmp = {
 		cooldown: 0
 };
 var b_hasModRights = false;
-var cur_Vers="102.1.17.2.1";
+var cur_Vers="102.1.21.2.1";
 
 var o_chatcmds = {
         /*
