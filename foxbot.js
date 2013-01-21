@@ -33,6 +33,7 @@ var o_settings = {
     	goodbyeMsg: true,
 	profanityfilter: true,
 	announcer: true,
+	usercmd: false,
 	maxSongLength: 8, // in mins.
     	rules: 'Play any type of EDM. 5-8 min max. Please show love and respect. NO foul language!!!',
     	welcome: 'Thank you for plugging in!',
@@ -154,6 +155,12 @@ var o_chatcmds = {
 	},	
 	'/unlock': {
 		f: f_unlock,
+		needsPerm: true,
+		needsLocalPerm: true,
+		visible: true
+	},
+	'/usercmd': {
+		f: f_toggleUserCmd,
 		needsPerm: true,
 		needsLocalPerm: true,
 		visible: true
@@ -1049,6 +1056,16 @@ function f_toggleStrictMode(data) {
 		o_settings.strictMode = false;
 	}
 }
+function f_toggleUserCmd(data) {
+	if(o_settings.usercmd == false) {
+		API.sendChat('/me User commands now enabled');
+		o_settings.usercmd = true;
+	}
+	else {
+		API.sendChat('/me User commands now disabled');
+		o_settings.usercmd = false;
+	}
+}
 function f_set(data) {
     var args = f_getArgs(data.message);
     var setValue = args[1];
@@ -1075,11 +1092,11 @@ function f_checkChat(data) {
 						if(API.getUser(data.fromID).permission.toString()>1){
 							o_chatcmds[s].f(data);
 						}
-						else{
+						/*else{
 							API.sendChat('I\'m sorry, @' + data.from + ', but I\'m afraid I can\'t let you do that.');
-						}
+						}*/
 					}
-					else{
+					else if(o_settings.usercmd){
 						o_chatcmds[s].f(data);
 					}
 				}
@@ -1190,5 +1207,6 @@ function f_announcer(){
 		window.setTimeout(function(){API.sendChat(" Also check out the list of songs we would rather you NOT play at http://goo.gl/9tLE7 and get our custom background at http://bit.ly/10s3M8h !");},1000);
 	}
 }
+
 window.setTimeout(function(){f_foxbotInit();},5000);
 window.setInterval(function(){f_announcer();},(1000 * 30 * 60));
