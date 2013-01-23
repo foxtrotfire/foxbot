@@ -1250,12 +1250,12 @@ function f_announcer(){
 // Start of AntiSpam
 	
 var o_AS = {
-		T01: 0,
-		T02: 0,
-		T03: 0,
-		C01: 0,
-		C02: 0,
-		C03: 0,
+		T01: 1,
+		T02: 1,
+		T03: 1,
+		C01: 1,
+		C02: 1,
+		C03: 1,
 		i_timer01: null,
 		i_timer02: null,
 		i_timer03: null
@@ -1264,10 +1264,10 @@ function f_antiSpam(data){
 	if(o_settings.antiSpam){
 		if(API.getUser(data.fromID).permission.toString() < 2){
 			if(data.fromID != API.getSelf().id){
-				if (data.fromID == o_AS.T01 && data.fromID != o_AS.T02 && data.fromID != o_AS.T03){
+				if (data.fromID == o_AS.T01){
 					window.clearTimeout(o_AS.i_timer01);
 					o_AS.C01 = o_AS.C01 + 1;
-					o_AS.i_timer01 = window.setTimeout(function(){o_AS.T01 = 0;},2500);
+					o_AS.i_timer01 = window.setTimeout(function(){o_AS.T01 = 1;},2500);
 					if (o_AS.C01 == 3){
 						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
 					}
@@ -1279,14 +1279,10 @@ function f_antiSpam(data){
 						o_AS.T01 = 0;
 					}
 				}
-				else if(o_AS.T01 == 0 && data.fromID != o_AS.T02 && data.fromID != o_AS.T03) {
-					o_AS.C01 = 1;
-					o_AS.T01 = data.fromID;
-				}
-				else if (data.fromID == o_AS.T02 && data.fromID != o_AS.T03){
+				else if (data.fromID == o_AS.T02){
 					window.clearTimeout(o_AS.i_timer02);
 					o_AS.C02 = o_AS.C02 + 1;
-					o_AS.i_timer02 = window.setTimeout(function(){o_AS.T02 = 0;},2500);
+					o_AS.i_timer02 = window.setTimeout(function(){o_AS.T02 = 1;},2500);
 					if (o_AS.C02 == 3){
 						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
 					}
@@ -1298,14 +1294,10 @@ function f_antiSpam(data){
 						o_AS.T02 = 0;
 					}
 				}
-				else if(o_AS.T02 == 0 && data.fromID != o_AS.T03) {
-					o_AS.C02 = 1;
-					o_AS.T02 = data.fromID;
-				}
 				else if (data.fromID == o_AS.T03){
 					window.clearTimeout(o_AS.i_timer03);
 					o_AS.C03 = o_AS.C03 + 1;
-					o_AS.i_timer03 = window.setTimeout(function(){o_AS.T03 = 0;},2500);
+					o_AS.i_timer03 = window.setTimeout(function(){o_AS.T03 = 1;},2500);
 					if (o_AS.C03 == 3){
 						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
 					}
@@ -1317,7 +1309,15 @@ function f_antiSpam(data){
 						o_AS.T03 = 0;
 					}
 				}
-				else if(o_AS.T03 == 0) {
+				else if(o_AS.T01 == 1) {
+					o_AS.C01 = 1;
+					o_AS.T01 = data.fromID;
+				}
+				else if(o_AS.T02 == 1) {
+					o_AS.C02 = 1;
+					o_AS.T02 = data.fromID;
+				}
+				else if(o_AS.T03 == 1) {
 					o_AS.C03 = 1;
 					o_AS.T03 = data.fromID;
 				}
