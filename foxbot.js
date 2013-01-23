@@ -39,7 +39,7 @@ var o_settings = {
     	autoWoot: true,
     	autoQueue: true,
     	welcomeMsg: false,
-    	goodbyeMsg: true,
+    	leaveMsg: false,
 	profanityfilter: true,
 	announcer: true,
 	usercmd: false,
@@ -1059,7 +1059,7 @@ function f_joke(data) {
     API.sendChat('/me Joke #'+n+': '+a_jokes[n]);
 }
 function f_test(data) {
-	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.goodbyeMsg+', AS: '+o_settings.autoSkip+'('+o_settings.maxSongLength+'m), AW: '+o_settings.autoWoot+', AN: '+o_settings.announcer+', PF: '+o_settings.profanityfilter+', SF: '+o_settings.antiSpam+', UC: '+o_settings.usercmd+', Mod: '+b_hasModRights+']';
+	s = '[WM: '+o_settings.welcomeMsg+', GM: '+o_settings.leaveMsg+', AS: '+o_settings.autoSkip+'('+o_settings.maxSongLength+'m), AW: '+o_settings.autoWoot+', AN: '+o_settings.announcer+', PF: '+o_settings.profanityfilter+', SF: '+o_settings.antiSpam+', UC: '+o_settings.usercmd+', Mod: '+b_hasModRights+']';
 	API.sendChat('/me Systems are online and functional! '+s);
 }
 function f_reload(data) {
