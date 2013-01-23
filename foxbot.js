@@ -4,6 +4,9 @@
 //	Version 102.1.14.2.1
 //	Copyright 2012 1NT, FoxtrotFire, Royal Soda, [tw].me, Linear Logic
 ////////////////////////////////////////////////////////////////
+//	Changelog v. 102.1.23.2.1
+//	-user welcome message toggleable
+////////////////////////////////////////////////////////////////
 //	Changelog v. 102.1.21.2.1
 //	-Added antispam system
 //	-Added a user command toggle (bot will ignore users)
@@ -35,7 +38,7 @@ var o_settings = {
     	autoSkip: true,
     	autoWoot: true,
     	autoQueue: true,
-    	welcomeMsg: true,
+    	welcomeMsg: false,
     	goodbyeMsg: true,
 	profanityfilter: true,
 	announcer: true,
@@ -56,7 +59,7 @@ var o_tmp = {
 		cooldown: 0
 };
 var b_hasModRights = false;
-var cur_Vers="102.1.21.2.1";
+var cur_Vers="102.1.23.2.1";
 
 var o_chatcmds = {
         /*
@@ -800,9 +803,9 @@ function join(user){
 	else if(user.permission.toString()==1){
 		API.sendChat("/me :: [Featured DJ] @"+user.username+" has joined the room");
 	}
-	/*else{
+	else if(o_settings.welcomeMsg){
 		API.sendChat(" :: Welcome @" + user.username + " to " + Models.room.data.name + ". "+o_settings.welcome);
-	}*/
+	}
 }
 
 
