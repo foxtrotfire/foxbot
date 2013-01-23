@@ -6,6 +6,8 @@
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 102.1.23.2.1
 //	-user welcome message toggleable
+//	v. 102.1.23.2.2
+//	-Antispam overhauled
 ////////////////////////////////////////////////////////////////
 //	Changelog v. 102.1.21.2.1
 //	-Added antispam system
@@ -59,7 +61,7 @@ var o_tmp = {
 		cooldown: 0
 };
 var b_hasModRights = false;
-var cur_Vers="102.1.23.2.1";
+var cur_Vers="102.1.23.2.2";
 
 var o_chatcmds = {
         /*
@@ -1103,7 +1105,7 @@ function f_set(data) {
     var args = f_getArgs(data.message);
     var setValue = args[1];
     var s;
-	
+
     if((setValue == 'true') || (setValue == 'false')){
 		s = 'o_settings.'+args[0]+' = '+setValue+';';
 	}
@@ -1244,33 +1246,87 @@ function f_announcer(){
 		window.setTimeout(function(){API.sendChat(" Also check out the list of songs we would rather you NOT play at http://goo.gl/9tLE7 and get our custom background at http://bit.ly/10s3M8h !");},1000);
 	}
 }
+
+// Start of AntiSpam
+	
+var o_AS = {
+		T01: 0,
+		T02: 0,
+		T03: 0,
+		C01: 0,
+		C02: 0,
+		C03: 0,
+		i_timer01: null,
+		i_timer02: null,
+		i_timer03: null
+};
 function f_antiSpam(data){
 	if(o_settings.antiSpam){
 		if(API.getUser(data.fromID).permission.toString() < 2){
 			if(data.fromID != API.getSelf().id){
-				if (data.fromID == o_tmp.target){
-					o_tmp.counter = o_tmp.counter + 1;
-					window.setTimeout(function(){o_tmp.counter = 1;},10000);
-					if (o_tmp.counter == 5){
+				if (data.fromID == o_AS.T01 && data.fromID != o_AS.T02 && data.fromID != o_AS.T03){
+					window.clearTimeout(o_AS.i_timer01);
+					o_AS.C01 = o_AS.C01 + 1;
+					o_AS.i_timer01 = window.setTimeout(function(){o_AS.T01 = 0;},2500);
+					if (o_AS.C01 == 3){
 						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
 					}
-					else if(o_tmp.counter == 9) {
+					else if(o_AS.C01 == 5) {
 						API.sendChat("@"+data.from+" WARNING, this is your final warning, stop spamming or you will be kicked!");
 					}	
-					else if(o_tmp.counter == 10){
-						API.moderateKickUser(o_tmp.target, 'spamming');
+					else if(o_AS.C01 == 6){
+						API.moderateKickUser(o_AS.T01, 'AutoKick: Spamming');
+						o_AS.T01 = 0;
 					}
 				}
-				else {
-					o_tmp.target = data.fromID;
-					o_tmp.counter = 1;
-					
+				else if(o_AS.T01 == 0 && data.fromID != o_AS.T02 && data.fromID != o_AS.T03) {
+					o_AS.C01 = 1;
+					o_AS.T01 = data.fromID;
+				}
+				else if (data.fromID == o_AS.T02 && data.fromID != o_AS.T03){
+					window.clearTimeout(o_AS.i_timer02);
+					o_AS.C02 = o_AS.C02 + 1;
+					o_AS.i_timer02 = window.setTimeout(function(){o_AS.T02 = 0;},2500);
+					if (o_AS.C02 == 3){
+						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
+					}
+					else if(o_AS.C02 == 5) {
+						API.sendChat("@"+data.from+" WARNING, this is your final warning, stop spamming or you will be kicked!");
+					}	
+					else if(o_AS.C02 == 6){
+						API.moderateKickUser(o_AS.T02, 'AutoKick: Spamming');
+						o_AS.T02 = 0;
+					}
+				}
+				else if(o_AS.T02 == 0 && data.fromID != o_AS.T03) {
+					o_AS.C02 = 1;
+					o_AS.T02 = data.fromID;
+				}
+				else if (data.fromID == o_AS.T03){
+					window.clearTimeout(o_AS.i_timer03);
+					o_AS.C03 = o_AS.C03 + 1;
+					o_AS.i_timer03 = window.setTimeout(function(){o_AS.T03 = 0;},2500);
+					if (o_AS.C03 == 3){
+						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
+					}
+					else if(o_AS.C03 == 5) {
+						API.sendChat("@"+data.from+" WARNING, this is your final warning, stop spamming or you will be kicked!");
+					}	
+					else if(o_AS.C03 == 6){
+						API.moderateKickUser(o_AS.T03, 'AutoKick: Spamming');
+						o_AS.T03 = 0;
+					}
+				}
+				else if(o_AS.T03 == 0) {
+					o_AS.C03 = 1;
+					o_AS.T03 = data.fromID;
 				}
 			}
 		}	
 	}
-}	
+}
 
+// End of AntiSpam
 
 window.setTimeout(function(){f_foxbotInit();},5000);
 window.setInterval(function(){f_announcer();},(1000 * 30 * 60));
