@@ -1339,7 +1339,7 @@ fuction f_antiSpamReset(){
 	o_AS.C01 = 1;
 	o_AS.C02 = 1;
 	o_AS.C03 = 1;
-	API.sendChat("/me AntiSpam Targets reset!")
+	API.sendChat("/me AntiSpam Targets reset!");
 }
 
 // End of AntiSpam
