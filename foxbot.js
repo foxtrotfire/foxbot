@@ -1332,7 +1332,7 @@ function f_antiSpam(data){
 	}
 }
 
-fuction f_antiSpamReset(){
+function f_antiSpamReset(){
 	o_AS.T01 = 1;
 	o_AS.T02 = 1;
 	o_AS.T03 = 1;
