@@ -185,6 +185,12 @@ var o_chatcmds = {
 		needsLocalPerm: true,
 		visible: true
 	},
+	'/reset': {
+		f: f_antiSpamReset,
+		needsPerm: true,
+		needsLocalPerm: true,
+		visible: true
+	},
 	////////////////////////////////////////////
 	// chmod 111
 	////////////////////////////////////////////
@@ -1324,6 +1330,16 @@ function f_antiSpam(data){
 			}
 		}	
 	}
+}
+
+fuction f_antiSpamReset(){
+	o_AS.T01 = 1;
+	o_AS.T02 = 1;
+	o_AS.T03 = 1;
+	o_AS.C01 = 1;
+	o_AS.C02 = 1;
+	o_AS.C03 = 1;
+	API.sendChat("/me AntiSpam Targets reset!")
 }
 
 // End of AntiSpam
