@@ -1254,94 +1254,99 @@ function f_announcer(){
 }
 
 // Start of AntiSpam
-	
-var o_AS = {
-		T01: 1,
-		T02: 1,
-		T03: 1,
-		C01: 1,
-		C02: 1,
-		C03: 1,
-		i_timer01: null,
-		i_timer02: null,
-		i_timer03: null
+/*	
+var o_as = {
+		t1: 1,
+		t2: 1,
+		t3: 1,
+		c1: 1,
+		c2: 1,
+		c3: 1,
+		i_timer1: null,
+		i_timer2: null,
+		i_timer3: null
 };
 function f_antiSpam(data){
 	if(o_settings.antiSpam){
 		if(API.getUser(data.fromID).permission.toString() < 2){
 			if(data.fromID != API.getSelf().id){
-				if (data.fromID == o_AS.T01){
-					window.clearTimeout(o_AS.i_timer01);
-					o_AS.C01 = o_AS.C01 + 1;
-					if (o_AS.C01 == 3){
+				if (data.fromID == o_as.t1){
+					window.clearInterval(o_as.i_timer1);
+					o_as.c1 = o_as.c1 + 1;
+					if (o_as.c1 == 3){
 						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
 					}
-					else if(o_AS.C01 == 5) {
+					else if(o_as.c1 == 5) {
 						API.sendChat("@"+data.from+" WARNING, this is your final warning, stop spamming or you will be kicked!");
 					}	
-					else if(o_AS.C01 == 6){
-						API.moderateKickUser(o_AS.T01, 'AutoKick: Spamming');
-						o_AS.T01 = 0;
+					else if(o_as.c1 == 6){
+						API.moderateKickUser(o_as.t1, 'AutoKick: Spamming');
+						o_as.t1 = 0;
 					}
-					o_AS.i_timer01 = window.setTimeout(function(){o_AS.T01 = 1;},2500);
+					o_as.i_timer1 = window.setInterval(function(){o_as.t1 = 1;},2500);
 				}
-				else if (data.fromID == o_AS.T02){
-					window.clearTimeout(o_AS.i_timer02);
-					o_AS.C02 = o_AS.C02 + 1;
-					if (o_AS.C02 == 3){
+				else if (data.fromID == o_as.t2){
+					window.clearInterval(o_as.i_timer2);
+					o_as.c2 = o_as.c2 + 1;
+					if (o_as.c2 == 3){
 						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
 					}
-					else if(o_AS.C02 == 5) {
+					else if(o_as.c2 == 5) {
 						API.sendChat("@"+data.from+" WARNING, this is your final warning, stop spamming or you will be kicked!");
 					}	
-					else if(o_AS.C02 == 6){
-						API.moderateKickUser(o_AS.T02, 'AutoKick: Spamming');
-						o_AS.T02 = 0;
+					else if(o_as.c2 == 6){
+						API.moderateKickUser(o_as.t2, 'AutoKick: Spamming');
+						o_as.t2 = 0;
 					}
-					o_AS.i_timer02 = window.setTimeout(function(){o_AS.T02 = 1;},2500);
+					o_as.i_timer2 = window.setInterval(function(){o_as.t2 = 1;},2500);
 				}
-				else if (data.fromID == o_AS.T03){
-					window.clearTimeout(o_AS.i_timer03);
-					o_AS.C03 = o_AS.C03 + 1;
-					if (o_AS.C03 == 3){
+				else if (data.fromID == o_as.t3){
+					window.clearInterval(o_as.i_timer3);
+					o_as.c3 = o_as.c3 + 1;
+					if (o_as.c3 == 3){
 						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
 					}
-					else if(o_AS.C03 == 5) {
+					else if(o_as.c3 == 5) {
 						API.sendChat("@"+data.from+" WARNING, this is your final warning, stop spamming or you will be kicked!");
 					}	
-					else if(o_AS.C03 == 6){
-						API.moderateKickUser(o_AS.T03, 'AutoKick: Spamming');
-						o_AS.T03 = 0;
+					else if(o_as.c3 == 6){
+						API.moderateKickUser(o_as.t3, 'AutoKick: Spamming');
+						o_as.t3 = 0;
 					}
-					o_AS.i_timer03 = window.setTimeout(function(){o_AS.T03 = 1;},2500);
+					o_as.i_timer3 = window.setInterval(function(){o_as.t3 = 1;},2500);
 				}
-				else if(o_AS.T01 == 1) {
-					o_AS.C01 = 1;
-					o_AS.T01 = data.fromID;
+				else if(o_as.t1 == 1) {
+					o_as.c1 = 1;
+					o_as.t1 = data.fromID;
 				}
-				else if(o_AS.T02 == 1) {
-					o_AS.C02 = 1;
-					o_AS.T02 = data.fromID;
+				else if(o_as.t2 == 1) {
+					o_as.c2 = 1;
+					o_as.t2 = data.fromID;
 				}
-				else if(o_AS.T03 == 1) {
-					o_AS.C03 = 1;
-					o_AS.T03 = data.fromID;
+				else if(o_as.t3 == 1) {
+					o_as.c3 = 1;
+					o_as.t3 = data.fromID;
 				}
 			}
 		}	
 	}
 }
 
+
+
+
+
+
 function f_antiSpamReset(){
-	o_AS.T01 = 1;
-	o_AS.T02 = 1;
-	o_AS.T03 = 1;
-	o_AS.C01 = 1;
-	o_AS.C02 = 1;
-	o_AS.C03 = 1;
+	o_as.t1 = 1;
+	o_as.t2 = 1;
+	o_as.t3 = 1;
+	o_as.c1 = 1;
+	o_as.c2 = 1;
+	o_as.c3 = 1;
 	API.sendChat("/me AntiSpam Targets reset!");
 }
-
+*/
 // End of AntiSpam
 
 window.setTimeout(function(){f_foxbotInit();},5000);
