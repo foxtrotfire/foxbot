@@ -179,13 +179,13 @@ var o_chatcmds = {
 		needsLocalPerm: true,
 		visible: true
 	},
-	'/antispam': {
+	/*'/antispam': {
 		f: f_toggleAntiSpam,
 		needsPerm: true,
 		needsLocalPerm: true,
 		visible: true
 	},
-	/*'/reset': {
+	'/reset': {
 		f: f_antiSpamReset,
 		needsPerm: true,
 		needsLocalPerm: true,
