@@ -185,12 +185,12 @@ var o_chatcmds = {
 		needsLocalPerm: true,
 		visible: true
 	},
-	'/reset': {
+	/*'/reset': {
 		f: f_antiSpamReset,
 		needsPerm: true,
 		needsLocalPerm: true,
 		visible: true
-	},
+	},*/
 	////////////////////////////////////////////
 	// chmod 111
 	////////////////////////////////////////////
