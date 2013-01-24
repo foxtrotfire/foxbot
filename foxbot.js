@@ -1273,7 +1273,6 @@ function f_antiSpam(data){
 				if (data.fromID == o_AS.T01){
 					window.clearTimeout(o_AS.i_timer01);
 					o_AS.C01 = o_AS.C01 + 1;
-					o_AS.i_timer01 = window.setTimeout(function(){o_AS.T01 = 1;},2500);
 					if (o_AS.C01 == 3){
 						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
 					}
@@ -1284,11 +1283,11 @@ function f_antiSpam(data){
 						API.moderateKickUser(o_AS.T01, 'AutoKick: Spamming');
 						o_AS.T01 = 0;
 					}
+					o_AS.i_timer01 = window.setTimeout(function(){o_AS.T01 = 1;},2500);
 				}
 				else if (data.fromID == o_AS.T02){
 					window.clearTimeout(o_AS.i_timer02);
 					o_AS.C02 = o_AS.C02 + 1;
-					o_AS.i_timer02 = window.setTimeout(function(){o_AS.T02 = 1;},2500);
 					if (o_AS.C02 == 3){
 						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
 					}
@@ -1299,11 +1298,11 @@ function f_antiSpam(data){
 						API.moderateKickUser(o_AS.T02, 'AutoKick: Spamming');
 						o_AS.T02 = 0;
 					}
+					o_AS.i_timer02 = window.setTimeout(function(){o_AS.T02 = 1;},2500);
 				}
 				else if (data.fromID == o_AS.T03){
 					window.clearTimeout(o_AS.i_timer03);
 					o_AS.C03 = o_AS.C03 + 1;
-					o_AS.i_timer03 = window.setTimeout(function(){o_AS.T03 = 1;},2500);
 					if (o_AS.C03 == 3){
 						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
 					}
@@ -1314,6 +1313,7 @@ function f_antiSpam(data){
 						API.moderateKickUser(o_AS.T03, 'AutoKick: Spamming');
 						o_AS.T03 = 0;
 					}
+					o_AS.i_timer03 = window.setTimeout(function(){o_AS.T03 = 1;},2500);
 				}
 				else if(o_AS.T01 == 1) {
 					o_AS.C01 = 1;
