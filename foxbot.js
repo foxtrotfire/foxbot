@@ -179,13 +179,13 @@ var o_chatcmds = {
 		needsLocalPerm: true,
 		visible: true
 	},
-	/*'/antispam': {
+	'/antispam': {
 		f: f_toggleAntiSpam,
 		needsPerm: true,
 		needsLocalPerm: true,
 		visible: true
 	},
-	'/reset': {
+	/*'/reset': {
 		f: f_antiSpamReset,
 		needsPerm: true,
 		needsLocalPerm: true,
@@ -1347,6 +1347,33 @@ function f_antiSpamReset(){
 	API.sendChat("/me AntiSpam Targets reset!");
 }
 */
+function f_antiSpam(data){
+	if(o_settings.antiSpam){
+		if(API.getUser(data.fromID).permission.toString() < 2){
+			if(data.fromID != API.getSelf().id){
+				if (data.fromID == o_tmp.target){
+					o_tmp.counter = o_tmp.counter + 1;
+					window.setTimeout(function(){o_tmp.counter = 1;},10000);
+					if (o_tmp.counter == 5){
+						API.sendChat("@"+data.from+" WARNING, stop spamming or you will be kicked!");
+					}
+					else if(o_tmp.counter == 7) {
+						API.sendChat("@"+data.from+" WARNING, this is your final warning, stop spamming or you will be kicked!");
+					}	
+					else if(o_tmp.counter == 8){
+						API.moderateKickUser(o_tmp.target, 'Autokick by bot: spamming');
+					}
+				}
+				else {
+					o_tmp.target = data.fromID;
+					o_tmp.counter = 1;
+
+				}
+			}
+		}	
+	}
+}	
+
 // End of AntiSpam
 
 window.setTimeout(function(){f_foxbotInit();},5000);
