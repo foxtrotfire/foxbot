@@ -951,7 +951,7 @@ function f_drink(data) {
 			break;
 		case "50aeb07a877b9217e2fbffb2":
 			//Guess who? It's already in there
-			API.sendChat("The master has spoken! One Redbull Vodka for @"+data.from+" !");
+			API.sendChat("Here's your glass of lukewarm sewage water @"+data.from+" , 'Enjoy' !");
 			break;
 		case "50aeb020d6e4a94f774740a9":
 			//foxtrot
