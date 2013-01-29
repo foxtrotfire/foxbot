@@ -999,7 +999,6 @@ function f_drink(data) {
 			break;
 		case "50aeb20fc3b97a2cb4c2d804":
 			// Bass Addict
-			API.sendChat("The Supreme Overlord wants cranberry juice! What are you doing? Yes, the Supreme Overlord. Yes, @"+data.from+"Hurry up. Get cranberry juice. Yes, now.");
 			API.sendchat("Sorry for the wait Mr. Supreme Overlord, sir. *Hands @"+data.from+" a glass of cranberry juice.* There is more in the back if you need it, Mr. Supreme Overlord, sir.");
 			break;
 		case "50c22bc9877b92490a396b28":
