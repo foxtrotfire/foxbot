@@ -950,8 +950,8 @@ function f_drink(data) {
 			API.sendChat("Here's your hard cider, @"+data.from+" . Enjoy!");
 			break;
 		case "50aeb07a877b9217e2fbffb2":
-			//Guess who? It's already in there
-			API.sendChat("Here's your glass of lukewarm sewage water @"+data.from+" , 'Enjoy' !");
+			//Master Absolut
+			API.sendChat("Here's your glass of blended pizza, coffe, beer, pepsi and mojito @"+data.from+" , Enjoy!");
 			break;
 		case "50aeb020d6e4a94f774740a9":
 			//foxtrot
