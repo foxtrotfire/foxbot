@@ -999,7 +999,7 @@ function f_drink(data) {
 			break;
 		case "50aeb20fc3b97a2cb4c2d804":
 			// Bass Addict
-			API.sendchat("Sorry for the wait Mr. Supreme Overlord, sir. *Hands @"+data.from+" a glass of cranberry juice.* There is more in the back if you need it, Mr. Supreme Overlord, sir.");
+			API.sendChat("Sorry for the wait Mr. Supreme Overlord, sir. *Hands @"+data.from+" a glass of cranberry juice.* There is more in the back if you need it, Mr. Supreme Overlord, sir.");
 			break;
 		case "50c22bc9877b92490a396b28":
 			//Acidus. He gets a special one because he helped with the code. No, he did not get full code. Just one tiny snippet.
